@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  labels:
+    app: quarkus-getting-started
+    app.kubernetes.io/component: web
+    app.kubernetes.io/instance: quarkus-getting-started
+    app.kubernetes.io/name: spring-petclinicquarkus-getting-started
+    app.kubernetes.io/part-of: quarkus-getting-started
+    app.openshift.io/runtime: java
+  name: quarkus-getting-started
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quarkus-getting-started
+  template:
+    metadata:
+      labels:
+        app: quarkus-getting-started
+    spec:
+      containers:
+      - name: quarkus-getting-started
+        imagePullPolicy: Always
+        image: registry.access.redhat.com/ubi8/openjdk-17
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 45
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8443
+          protocol: TCP
+        - containerPort: 8778
+          protocol: TCP
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 45
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
