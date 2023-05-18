@@ -54,3 +54,30 @@ If you want to learn more about building native executables, please consult http
 Easily start your Reactive RESTful Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
+
+
+## S2I OCP Deployment Steps
+
+1) To import the supported OpenShift Container Platform image, enter the following command:
+
+```shell script
+oc import-image --confirm ubi8/openjdk-17 --from=registry.access.redhat.com/ubi8/openjdk-17
+```
+
+2) To build the project on OpenShift Container Platform, enter the following command:
+
+```shell script
+oc new-app ubi8/openjdk-17 <git_path> --name=<project_name>
+```
+Where:
+
+    <git_path> is the path to the Git repository that hosts your Quarkus project
+
+    <project_name> is the OpenShift project that you created.
+
+3) To begin the deployment to OpenShift Container Platform, enter the following command:
+
+```shell script
+oc start-build <project_name>
+```
